@@ -2,3 +2,5 @@ dist
 sign.key
 .env
 .mypy_cache
+release
+build
