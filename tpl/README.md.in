@@ -11,7 +11,7 @@
 Tini - A tiny but valid `init` for containers
 =============================================
 
-[![Build Status](https://travis-ci.org/krallin/tini.svg?branch=master)](https://travis-ci.org/krallin/tini)
+[![Build Status](https://travis-ci.org/VHSgunzo/tini.svg?branch=master)](https://travis-ci.org/VHSgunzo/tini)
 
 Tini is the simplest `init` you could think of.
 
@@ -60,7 +60,7 @@ to manually invoke Tini:
 
     # Add Tini
     ENV TINI_VERSION v@tini_VERSION_MAJOR@.@tini_VERSION_MINOR@.@tini_VERSION_PATCH@
-    ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+    ADD https://github.com/VHSgunzo/tini/releases/download/${TINI_VERSION}/tini-x86_64 /tini
     RUN chmod +x /tini
     ENTRYPOINT ["/tini", "--"]
 
@@ -76,74 +76,6 @@ Arguments for Tini itself should be passed like `-v` in the following example:
 `/tini -v -- /your/program`.
 
 *NOTE: The binary linked above is a 64-bit dynamically-linked binary.*
-
-
-### Signed binaries ###
-
-The `tini` and `tini-static` binaries are signed using the key `595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7`.
-
-You can verify their signatures using `gpg` (which you may install using
-your package manager):
-
-    ENV TINI_VERSION v@tini_VERSION_MAJOR@.@tini_VERSION_MINOR@.@tini_VERSION_PATCH@
-    ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-    ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
-    RUN gpg --batch --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
-     && gpg --batch --verify /tini.asc /tini
-    RUN chmod +x /tini
-
-
-### Verifying binaries via checksum ###
-
-The `tini` and `tini-static` binaries have generated checksums (`SHA1` and `SHA256`).
-
-You can verify their checksums using `sha1sum` and `sha256sum` (which you may install using
-your package manager):
-
-    ENV TINI_VERSION v@tini_VERSION_MAJOR@.@tini_VERSION_MINOR@.@tini_VERSION_PATCH@
-    RUN wget --no-check-certificate --no-cookies --quiet https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-amd64 \
-        && wget --no-check-certificate --no-cookies --quiet https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-amd64.sha256sum \
-        && echo "$(cat tini-amd64.sha256sum)" | sha256sum -c
-
-
-### Alpine Linux Package ###
-
-On Alpine Linux, you can use the following command to install Tini:
-
-    RUN apk add --no-cache tini
-    # Tini is now available at /sbin/tini
-    ENTRYPOINT ["/sbin/tini", "--"]
-
-
-### NixOS ###
-
-Using Nix, you can use the following command to install Tini:
-
-    nix-env --install tini
-
-
-### Debian ###
-
-On Debian (Buster or newer), you can use the following command to install Tini:
-
-    apt-get install tini
-
-Note that this installs `/usr/bin/tini` (and `/usr/bin/tini-static`), not `/tini`.
-
-
-### Arch Linux ###
-
-On Arch Linux, there is a package available on the [AUR](https://wiki.archlinux.org/index.php/Arch_User_Repository).
-Install using the [official instructions](https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages)
-or use an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers):
-
-    pacaur -S tini
-
-
-### Other Platforms ###
-
-ARM and 32-bit binaries are available! You can find the complete list of
-available binaries under [the releases tab][11].
 
 
 Options
@@ -234,23 +166,6 @@ Assuming your entrypoint was `/docker-entrypoint.sh`, then you would use:
     ENTRYPOINT ["/tini", "--", "/docker-entrypoint.sh"]
 
 
-### Statically-Linked Version ###
-
-Tini has very few dependencies (it only depends on libc), but if your
-container fails to start, you might want to consider using the statically-built
-version instead:
-
-    ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static /tini
-
-
-### Size Considerations ###
-
-Tini is a very small file (in the 10KB range), so it doesn't add much weight
-to your container.
-
-The statically-linked version is bigger, but still < 1M.
-
-
 Building Tini
 -------------
 
@@ -316,8 +231,8 @@ Special thanks to:
   [0]: https://github.com/krallin/tini/issues/8
   [5]: https://docs.docker.com/engine/reference/commandline/run/
   [10]: https://github.com/krallin/tini-images
-  [11]: https://github.com/krallin/tini/releases
-  [12]: https://github.com/krallin/tini/pull/114
+  [11]: https://github.com/VHSgunzo/tini/releases
+  [12]: https://github.com/VHSgunzo/tini/pull/114
   [20]: https://github.com/krallin/
   [30]: https://github.com/tianon
   [31]: https://github.com/dpw
